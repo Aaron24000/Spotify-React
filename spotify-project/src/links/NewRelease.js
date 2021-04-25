@@ -1,13 +1,13 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import Detail from '../components/Detail';
 import Dropdown from '../components/Dropdown';
 import ListBox from '../components/ListBox';
-import Detail from '../components/Detail';
 import { Credentials } from '../Credentials';
-import axios from 'axios';
 
-const GenreSearch = () => {
+const NewRelease = () => {
 
-  const spotify = Credentials();  
+  const spotify = Credentials();
 
   const [token, setToken] = useState('');  
   const [genres, setGenres] = useState({selectedGenre: '', listOfGenresFromAPI: []});
@@ -28,49 +28,37 @@ const GenreSearch = () => {
     .then(tokenResponse => {      
       setToken(tokenResponse.data.access_token);
 
-      axios('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
+      axios('https://api.spotify.com/v1/browse/featured-playlists?locale=sv_US', {
         method: 'GET',
         headers: { 'Authorization' : 'Bearer ' + tokenResponse.data.access_token}
       })
-      .then (genreResponse => {  
-        console.log(genreResponse);      
-        setGenres({
-          selectedGenre: genres.selectedGenre,
-          listOfGenresFromAPI: genreResponse.data.categories.items
+      .then (playlistResponse => {  
+        console.log(playlistResponse);      
+        setPlaylist({
+          selectedPlaylist: playlist.selectedPlaylist,
+          listOfPlaylistFromAPI: playlistResponse.data.playlists.items
         })
       });
       
     });
 
-  }, [genres.selectedGenre, spotify.ClientId, spotify.ClientSecret]); 
-
-  const genreChanged = val => {
-    setGenres({
-      selectedGenre: val, 
-      listOfGenresFromAPI: genres.listOfGenresFromAPI
-    });
-
-    axios(`https://api.spotify.com/v1/browse/categories/${val}/playlists?limit=10`, {
-      method: 'GET',
-      headers: { 'Authorization' : 'Bearer ' + token}
-    })
-    .then(playlistResponse => {
-      console.log(playlistResponse)
-      setPlaylist({
-        selectedPlaylist: playlist.selectedPlaylist,
-        listOfPlaylistFromAPI: playlistResponse.data.playlists.items
-      })
-    });
-
-    console.log(val);
-  }
-
+  }, [playlist.selectedPlaylist, spotify.ClientId, spotify.ClientSecret]);
+  
   const playlistChanged = val => {
-    console.log(val);
     setPlaylist({
       selectedPlaylist: val,
       listOfPlaylistFromAPI: playlist.listOfPlaylistFromAPI
     });
+
+    console.log(val);
+
+    axios(`https://api.spotify.com/v1/playlists/${val}`, {
+      method: 'GET',
+      headers: { 'Authorization' : 'Bearer ' + token}
+    })
+    .then(result => {
+      console.log(result)
+    })
   }
 
   const buttonClicked = e => {
@@ -83,6 +71,7 @@ const GenreSearch = () => {
       }
     })
     .then(tracksResponse => {
+      console.log(tracksResponse)
       setTracks({
         selectedTrack: tracks.selectedTrack,
         listOfTracksFromAPI: tracksResponse.data.items
@@ -104,13 +93,14 @@ const GenreSearch = () => {
 
   }
 
+
+
   return (
     <div className="container">
     <h2>Select a Genre...</h2>
-      <form onSubmit={buttonClicked}>        
-          <Dropdown label="Genre :" options={genres.listOfGenresFromAPI} selectedValue={genres.selectedGenre} changed={genreChanged} />
-          <Dropdown label="Playlist :" options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged} />
-          <div className="col-sm-6 row form-group px-0">
+      <form onSubmit={buttonClicked}>
+      <Dropdown label="Playlist :" options={playlist.listOfPlaylistFromAPI} selectedValue={playlist.selectedPlaylist} changed={playlistChanged} />
+      <div className="col-sm-6 row form-group px-0">
             <button type='submit' className="btn btn-success col-sm-12">
               Search
             </button>
@@ -118,12 +108,10 @@ const GenreSearch = () => {
           <div className="row">
             <ListBox items={tracks.listOfTracksFromAPI} clicked={listboxClicked} />
             {trackDetail && <Detail {...trackDetail} /> }
-          </div>        
+          </div> 
       </form>
     </div>
-    
-    
   );
-}
+};
 
-export default GenreSearch;
+export default NewRelease;

@@ -1,4 +1,4 @@
-const Listbox = props => {
+const ListBox = props => {
 
     const clicked = e => {
         e.preventDefault();
@@ -25,4 +25,4 @@ const Listbox = props => {
     );
 }
 
-export default Listbox;
+export default ListBox;
