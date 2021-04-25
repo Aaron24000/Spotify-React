@@ -1,13 +1,106 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Quicksand";
+  color: #333;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.navbar {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  max-width: 90rem;
+  margin: 0 auto;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.navbar h1 {
+  color: #1DB954;
+}
+
+.navbar .links {
+  margin-left: auto;
+}
+
+
+.navbar a {
+  margin-left: 16px;
+  text-decoration: none;
+  padding: 6px;
+}
+
+.navbar a:hover {
+  color: #1DB954;
+}
+
+.content {
+  max-width: 90rem;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* search-form decoration */
+.song-search {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.song-search h2{
+  font-size: 40px;
+  color: #1DB954;
+  margin-bottom: 30px;
+}
+.song-search input {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  display: block;
+}
+.song-search button{
+  background: #1DB954;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+  
+.btn.dropdown-toggle  {
+  width:150px;
+  text-align:left;
+}
+
+span.caret {
+  position: absolute;
+  left: 90%;
+  top: 45%;
+}
+
+label {
+  padding-top:5px;
+}
+
+.form-label {
+  padding-left:0px !important;
+}
+
+img {
+  width:140px;
+  height:140px;
+}
+
+.btn-success {
+  background-color: #1DB954!important;
+}
+
+.btn-success:hover {
+  background-color: #4daf64!important;
+}
+
+img.track {
+  border: 1px solid #8a8a8a;
 }
